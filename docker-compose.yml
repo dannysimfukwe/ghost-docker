@@ -1,0 +1,28 @@
+version: '3.8'
+services:
+  ghost:
+    image: ghost:latest
+    ports:
+      - "8080:2368"
+    environment:
+      database__client: mysql
+      database__connection__host: db
+      database__connection__user: ghost
+      database__connection__password: ghost
+      database__connection__database: ghost
+    volumes:
+      - ghost:/var/lib/ghost/content
+    depends_on:
+      - db
+  db:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: ghost
+      MYSQL_USER: ghost
+      MYSQL_PASSWORD: ghost
+    volumes:
+      - db:/var/lib/mysql
+volumes:
+  ghost:
+  db:
